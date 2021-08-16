@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- DTD: : 해당 xml의 규격을 잡아주는 놈. mapper 말고는 들어올 수 있는 놈 없음--> 
+ 
+<mapper namespace="com.lytear.springTest.DDlesson02.dao.ReviewDAO">
+	<select id="selectReview" resultType="com.lytear.springTest.DDlesson02.model.Review"
+	parameterType="int">
+		SELECT 
+			`id`
+			,`storeId`	
+			,`menu`
+			,`userName`
+			,`point`
+			,`review`
+			,`createdAt`
+			,`updatedAt`
+		FROM 
+			`new_review`
+		WHERE 
+			<!--  `id` = 2-->
+	 		`id` = #{id}
+	
+	
+	</select>
+
+	<!--  쿼리 추가할 때
+	<select id="
+	
+	
+	 -->
+
+
+
+</mapper>
