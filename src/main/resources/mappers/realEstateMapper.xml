@@ -4,8 +4,8 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  
- <mapper namespace="com.lytear.springTest.Dlesson02.dao.RealEstateDAO">
-  	<select id="selectRealEstate"  resultType="com.lytear.springTest.Dlesson02.Dmodel.RealEstate"
+ <mapper namespace="com.lytear.springTest.lesson03.dao.RealEstateDAO">
+  	<select id="selectRealEstate"  resultType="com.lytear.springTest.lesson03.Dmodel.RealEstate"
   	parameterType="int">
  		SELECT
  			`id`
@@ -22,12 +22,12 @@
 		 	`real_estate`
 		 	
 		WHERE 
-			`id` = #{id} 	
+			`id` = #{id} <!-- {다오에서 전달된 파라미터 이름} -->	
 		 	
  	</select >
  
  	
- 	<select id = "selectRealEstateRentList" resultType="com.lytear.springTest.Dlesson02.Dmodel.RealEstate"
+ 	<select id = "selectRealEstateRentList" resultType="com.lytear.springTest.lesson03.Dmodel.RealEstate"
  	parameterType="int">
  		
  		SELECT
@@ -43,13 +43,15 @@
 		 	
 		FROM 
 		 	`real_estate` 	
-		WHERE 
+		WHERE <!--  구글링 mybatis 부등호 xml -->
 			<![CDATA[
 		  	`rentPrice` < #{rentPrice} 	
  			]]>
+ 			
+ 			
  	</select>
  
- 	<select id="selectRealEstateAreaList" resultType="com.lytear.springTest.Dlesson02.Dmodel.RealEstate"
+ 	<select id="selectRealEstateAreaList" resultType="com.lytear.springTest.lesson03.Dmodel.RealEstate"
  	parameterType="int">
  	
  		SELECT 
@@ -66,17 +68,99 @@
  		FROM 
  			`real_estate` 
  		WHERE 
+ 			<!-- `area` > #{area}는 열지 않은 상태에서 닫는 거라 에러 안 남 -->
+ 		
  			<![CDATA[
- 			`area` > #{area} 
+	 			`area` > #{area} 
+	 			AND `price` > #{price}
  			]]>
- 			AND 
- 			<![CDATA[
- 			`price` > #{price}
- 			]]>
- 	
- 	
+ 		ORDER BY
+ 			`id`<!-- `createdAt` -->
+ 			DESC;
+ 		<!-- id 는 시간이랑 같이 흘러감. id는 primary key라 인덱스 속성이 있고(auto_increment),
+ 		정렬 잡아줄 때 속성이 훨씬 빠름 -->
  	</select>
+ 	
+ 	
+ 	<insert id="insertRealEstateAsObject" parameterType="com.lytear.springTest.lesson03.Dmodel.RealEstate"
+ 	>
+ 		INSERT INTO
+ 			`real_estate`
+		(<!-- 입력할 칼럼 이름 -->
+ 			`realtorId`
+ 			,`address`
+ 			,`area`
+ 			,`type`
+ 			,`price`
+ 			,`createdAt`
+ 			,`updatedAt`
+		)
+ 		VALUES (
+ 		<!-- 객체 안에 들어있을 멤버 변수 이름을 하나씩 매칭해서 써 줌 (Mybatis가 객체 생성, 값 저장) -->
+ 			#{realtorId}
+ 			,#{address}
+ 			,#{area}
+ 			,#{type}
+ 			,#{price}
+ 			,now()
+ 			,now()
+ 		)
+ 			
+ 	
+ 	
+ 	</insert>
  
+ 
+ 
+ 	<!-- <insert id="insertRealEstate" parameterType="com.lytear.springTest.lesson03.Dmodel.RealEstate"> -->
+ 	<insert id="insertRealEstate" parameterType="map">
+ 	
+ 		INSERT INTO 
+ 			`real_estate`
+ 		(	
+	 		`address`
+	 		,`realtorID`
+	 		,`area`
+	 		,`type`
+	 		,`price`
+	 		,`rentPrice`
+	 		,`createdAt`
+	 		,`updatedAt`
+	 		
+ 		) VALUES
+ 		(
+ 			#{address}
+ 			,#{realtorId}
+	 		,#{area}
+	 		,#{type}
+	 		,#{price}
+	 		,#{rentPrice}
+	 		,now()
+	 		,now()
+ 		)
+ 	</insert>
+ 
+ 
+	 <update id="updateRealEstateByid" parameterType="map">
+	 
+	 	UPDATE
+	 		`real_estate` 
+	 	SET
+	 		`type` = #{type} 
+	 		,`price` = #{price} 
+	 		,`updatedAt` = now()
+	 	WHERE
+	 		`id` = #{id} ;
+	 
+	 </update>
+	 
+	 <delete id="deleteByid" parameterType="int">
+	 	DELETE
+	 	FROM `real_estate`
+	 	WHERE `id` = #{id};
+	 
+	 
+	 </delete>
  
  </mapper>
  

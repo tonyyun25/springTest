@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lytear.springTest.DDDlesson02.dao.ScoreDAO">
+
+
+	<select id="selectScoreList" resultType="com.lytear.springTest.DDDlesson02.model.Score"
+	parameterType="int">
+	
+		SELECT
+			`id`
+			,`name`
+			,`year`
+			,`semester`
+			,`term`
+			,`subject`
+			,`score`
+			,`createdAt`
+			,`updatedAt`
+		
+		FROM 
+			`score`
+		
+		WHERE
+			`id` = 4
+	
+	</select>
+
+</mapper>

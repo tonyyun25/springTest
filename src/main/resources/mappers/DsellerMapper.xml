@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+<mapper namespace="com.lytear.springTest.Dlesson041.dao.DSellerDAO">
+ 	<insert id="insertSeller" parameterType="map">
+ 		INSERT INTO `seller`
+ 		(
+ 			`nickname`
+ 			,`profileImageUrl`
+ 			,`temperature`
+ 			,`createdAt`
+ 			,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{nickname }
+	 		,#{profileImageUrl }
+	 		,#{temperature }
+	 		,now()
+	 		,now()
+ 		)
+ 	
+ 	</insert>
+
+	<select id="selectLastUser" resultType="com.lytear.springTest.Dlesson041.model.DSeller">
+ 		SELECT
+ 		
+ 			`id`
+ 			,`nickname`
+ 			,`profileImageUrl`
+ 			,`temperature`
+ 			,`createdAt`
+ 			,`updatedAt`
+ 			
+ 		
+ 		FROM
+ 			`seller`
+ 		ORDER BY `id` DESC
+ 		LIMIT 1
+ 	
+ 	</select>
+
+	<select id="selectUser" resultType="com.lytear.springTest.Dlesson041.model.DSeller"
+	parameterType="int">
+		SELECT
+ 		
+ 			`id`
+ 			,`nickname`
+ 			,`profileImageUrl`
+ 			,`temperature`
+ 			,`createdAt`
+ 			,`updatedAt`
+ 			
+ 		
+ 		FROM
+ 			`seller`
+ 		
+ 		WHERE `id` = #{id}
+	
+	
+	</select>
+
+
+
+</mapper>
+
+
+
