@@ -55,22 +55,9 @@ public class FavoriteController {
 		
 //		return "입력 성공 " + count ;
 		
-		/*favoriteBO.addUser(name, url);
-		return "redirect:/lesson05/test05/weather_history";
-		*/
 		
 	}
 	
-	@GetMapping("/insert_user_view")
-	public String insertUserView() {
-		return "lesson06/insertNewUser";
-	}
-	
-	@GetMapping("/get_favorite")
-	@ResponseBody
-	public List<Favorite> test01 (){
-		return favoriteBO.getFavoriteList();
-	}
 	
 	
 	

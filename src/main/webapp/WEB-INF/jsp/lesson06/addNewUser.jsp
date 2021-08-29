@@ -53,21 +53,14 @@
 				if(url == null || url == "") {
 					alert("주소를 입력하세요")
 					return;
-				}
+				} 
 				
-				alert(${fn:startsWith(url, 'no')});
+				if(!url.startsWith("http://") & !url.startsWith("https://")) {
+					alert("다시 입력하세요")
+					return;
+				}	
 			
-			
-				/*
-				<c:choose>
-					<c:when test="${fn:startsWith(member.phoneNumber, '010')}">
-						${member.phoneNumber }
-					</c:when>
-					<c:otherwise>
-						유효하지 않은 전화번호
-					</c:otherwise>
-				</c:choose>
-				*/
+				
 				$.ajax({
 					type: "post",
 					url: "/lesson06/add_user",
