@@ -80,14 +80,21 @@
 						
 					</td>
 					<td>
-						<span>
+						
 						<%-- 이게 아래 바로 아래에 있었음 
 						<span class="text-primary">${member.point }P</span>--%>	
+						
+						<span
 						<c:if test="${member.point > 5000 }">
 							class="text-primary"
 						</c:if>
 						>${member.point }P</span>
+						
 						<%--otherwise 없이 위와 같이 간단히 표현  --%>
+						
+						
+						
+						
 					</td>
 				</tr>
 				</c:forEach>

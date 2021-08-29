@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+ 
+ <mapper namespace="com.lytear.springTest.lesson05.dao.WeatherHistoryDAO">
+ 	<select id="selectWeatherHistory" resultType="com.lytear.springTest.lesson05.model.Weather">
+ 	<!-- 돌려줄께 리스트라 할 지라도 클래스로 저장하면 마이바티스가 알아서
+ 	돌려줄께 하나면 OO, 여러개면 리스트로 돌려줌 -->
+ 		SELECT 
+ 			`id`
+ 			,`date`
+	 		,`weather`
+	 		,`temperatures`
+	 		,`precipitation`
+	 		,`microDust`
+	 		,`windSpeed`
+	 		,`createdAt`
+	 		,`updatedAt`
+ 		
+ 		
+ 		FROM
+ 			`weatherhistory`
+ 	</select>
+ 
+ 	<insert id="insertWeather" parameterType="map">
+ 		INSERT INTO 
+ 			`weatherHistory`
+ 		(
+ 			`date`
+	 		,`weather`
+	 		,`temperatures`
+	 		,`precipitation`
+	 		,`microDust`
+	 		,`windSpeed`
+	 		,`createdAt`
+	 		,`updatedAt`)	
+ 		VALUES
+ 		(
+ 			#{date}
+ 			,#{weather}
+ 			,#{temperatures}
+ 			,#{precipitation}
+ 			,#{microDust}
+ 			,#{windSpeed}
+ 			,now()
+ 			,now()
+ 		)
+ 	
+ 	
+ 	</insert>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </mapper>

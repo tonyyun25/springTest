@@ -1,0 +1,327 @@
+/**
+ * SNS(블로그, 트위터, 페이스북, 유튜브
+ *
+ * 첫 페이지 SNS별 최근글 1개
+ */
+'use strict';
+function updateBlog(data) {
+	var $wrapper = $('#kma-sns');
+	var $holder = $wrapper.find(' > div > ul > li[data-role="blog"] > a');
+	for(var i = 0 ; i < data.length ; i++) {
+		var item = data[i];
+		$holder.attr('href', item.link);
+		if(item.thumbnail) {
+			$holder.find('span.img').append($('<img>').attr('src', item.thumbnail))
+			if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+		} else {
+			$holder.find('span.img').css({ 'background-image': ''});
+			if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+		}
+		if(!item.title) {
+			$holder.find('strong').html(item.summary);
+					
+		} else {
+			$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+		}
+		break;
+	}
+}
+function updateTwitter(data) {
+	var $holder = $('#kma-sns > div > ul > li[data-role="twitter"] > a');
+	for(var i = 0 ; i < data.length ; i++) {
+		var item = data[i];
+		$holder.attr('href', item.link);
+		if(item.thumbnail) {
+			$holder.find('span.img').css({ 'background-image': 'url(' + item.thumbnail + ')'});
+			if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+		} else {
+			$holder.find('span.img').css({ 'background-image': ''});
+			if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+		}
+		if(!item.title) {
+			$holder.find('strong').html(item.summary);
+		} else {
+			$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+		}
+		break;
+	}
+}
+function updateYoutube(data) {
+	var $holder = $('#kma-sns > div > ul > li[data-role="youtube"] > a');
+	for(var i = 0 ; i < data.length ; i++) {
+		var item = data[i];
+		$holder.attr('href', item.link);
+		if(item.thumbnail) {
+			$holder.find('span.img').css({ 'background-image': 'url(' + item.thumbnail + ')'});
+			if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+		} else {
+			$holder.find('span.img').css({ 'background-image': ''});
+			if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+		}
+		if(!item.title) {
+			$holder.find('strong').html(item.summary);
+		} else {
+			$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+		}
+		break;
+	}
+}
+function updateFacebook(data) {
+	var $holder = $('#kma-sns > div > ul > li[data-role="facebook"] > a');
+	for(var i = 0 ; i < data.length ; i++) {
+		var item = data[i];
+		item.link = "https://www.facebook.com/kmaskylove";
+		$holder.attr('href', item.link);
+		if(item.thumbnail) {
+			$holder.find('span.img').css({ 'background-image': 'url(' + item.thumbnail + ')' });
+			if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+		} else {
+			$holder.find('span.img').css({ 'background-image': ''});
+			if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+		}
+				
+		if(!item.title) {
+			$holder.find('strong').html(item.summary);
+		} else {
+			$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+		}
+		break;
+	}
+			
+}
+function shouldUsingConfig(pinConfig, partialConfig) {
+    var result = false;
+    if(pinConfig && partialConfig && partialConfig.pin && partialConfig.pin.summary) {
+      if(partialConfig.datePeriod) {
+          var start = partialConfig.datePeriod.start;
+          var end = partialConfig.datePeriod.end;
+          if(start && end) {
+              var cur = moment();
+              start = moment(start, 'YYYY[-]MM[-]DD HH[;]mm');
+              end = moment(end, 'YYYY[-]MM[-]DD HH[;]mm');
+              if((cur.isAfter(start,'minute') || cur.isSame(start,'minute')) && cur.isBefore(end,'minute')) {
+                  result = true;
+              } else {
+                  result = false;
+              }
+          } else {
+             result = false;
+          }
+      } else {
+         result = true;
+      }
+    } else {
+        result = false;
+    }
+    return result;
+}
+var BLOG_URL="https://www.weather.go.kr/w/repositary/sns/kma_naver_blog.js",
+		YOUTUBE_URL="https://www.weather.go.kr/w/repositary/sns/kma_youtube.js",
+		TWITTER_URL="https://www.weather.go.kr/w/repositary/sns/kma_twitter.js",
+		FACEBOOK_URL="https://www.weather.go.kr/w/repositary/sns/kma_facebook.js",
+    CONFIG_URL="https://www.kma.go.kr/repositary/sns/sns-config.js?ver=" + (new Date().getTime());
+function applySnsConfig(pinConfig) {
+  if(shouldUsingConfig(pinConfig, pinConfig ? pinConfig.naverBlog : null)) {
+    sns.updateBlog([pinConfig.naverBlog.pin]);
+  } else {
+     addScript(BLOG_URL);
+  }
+  
+  if(shouldUsingConfig(pinConfig, pinConfig ? pinConfig.facebook : null)) {
+    sns.updateFacebook([pinConfig.facebook.pin]);
+  } else {
+			addScript(FACEBOOK_URL);
+  }
+  
+  if(shouldUsingConfig(pinConfig, pinConfig ? pinConfig.youtube : null)) {
+    sns.updateYoutube([pinConfig.youtube.pin]);
+  } else {
+		addScript(YOUTUBE_URL);
+  }
+  
+  if(shouldUsingConfig(pinConfig, pinConfig ? pinConfig.twitter : null)) {
+    sns.updateTwitter([pinConfig.twitter.pin]);
+  } else {
+		addScript(TWITTER_URL);
+  }
+}
+function addScript( src ) {
+	var s = document.createElement( 'script' );
+	s.setAttribute( 'src', src );
+	document.body.appendChild( s );
+}
+(function($, window, document){
+	var KmaSNS = function(wrapperId, events) {
+		if(typeof jQuery === 'undefined') {
+			alert('jQuery required!');
+		}
+//		if(typeof store === 'undefined') {
+//			alert('store.js required!');
+//		}
+//		if(typeof Mustache === 'undefined') {
+//			alert('mustache.js required!');
+//		}
+		
+		var base = this;
+		base.id = wrapperId;
+		base.events = events;
+		base.preparePinData();
+		base.addEventHandler();
+	};
+	KmaSNS.prototype = {
+		refresh: function() {
+			var base = this;
+			base.preparePinData();
+		},
+    preparePinData: function() {
+      addScript(CONFIG_URL);
+    },
+		updateData: function() {
+			var base = this;
+			showLoading(base.id, true);
+			addScript(BLOG_URL);
+			addScript(YOUTUBE_URL);
+			addScript(TWITTER_URL);
+			addScript(FACEBOOK_URL);
+			showLoading(base.id, false);
+			base.events.load();
+
+		},
+		getData: function(url) {
+			var prefix = this.getPrefix();
+			var data = {
+			};
+			
+			return $.ajax({
+				url: url,
+				data: data,
+				contentType: 'application/json; charset:utf-8',
+				dataType: "jsonp"
+			});
+		},
+		getPrefix: function() {
+			return "/";
+		},
+		requestBlog: function() {
+			var base = this;
+			return base.getData(BLOG_URL);	
+		},
+		requestTwitter: function() {
+			var base = this;
+			return base.getData(TWITTER_URL);	
+		},
+		requestYoutube: function() {
+			var base = this;
+			return base.getData(YOUTUBE_URL);	
+		},
+		requestFacebook: function() {
+			var base = this;
+			return base.getData(FACEBOOK_URL);	
+		},
+		updateBlog: function(data) {
+			var base = this;
+			var $wrapper = $('#' + base.id);
+			var $holder = $wrapper.find(' > div > ul > li[data-role="blog"] > a');
+			for(var i = 0 ; i < data.length ; i++) {
+				var item = data[i];
+				$holder.attr('href', item.link);
+				if(item.thumbnail) {
+					$holder.find('span.img').append($('<img>').attr('src', item.thumbnail))
+					if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+				} else {
+					$holder.find('span.img').css({ 'background-image': ''});
+					if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+				}
+				if(!item.title) {
+					$holder.find('strong').html(item.summary);
+					
+				} else {
+					$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+				}
+				break;
+			}
+		},
+		updateTwitter: function(data) {
+			var base = this;
+			var $holder = $('#' + base.id + ' > div > ul > li[data-role="twitter"] > a');
+			for(var i = 0 ; i < data.length ; i++) {
+				var item = data[i];
+				$holder.attr('href', item.link);
+				if(item.thumbnail) {
+					$holder.find('span.img').css({ 'background-image': 'url(' + item.thumbnail + ')'});
+					if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+				} else {
+					$holder.find('span.img').css({ 'background-image': ''});
+					if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+				}
+				if(!item.title) {
+					$holder.find('strong').html(item.summary);
+				} else {
+					$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+				}
+				break;
+			}
+		},
+		updateYoutube: function(data) {
+			var base = this;
+			var $holder = $('#' + base.id + ' > div > ul > li[data-role="youtube"] > a');
+			for(var i = 0 ; i < data.length ; i++) {
+				var item = data[i];
+				$holder.attr('href', item.link);
+				if(item.thumbnail) {
+					$holder.find('span.img').css({ 'background-image': 'url(' + item.thumbnail + ')'});
+					if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+				} else {
+					$holder.find('span.img').css({ 'background-image': ''});
+					if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+				}
+				if(!item.title) {
+					$holder.find('strong').html(item.summary);
+				} else {
+					$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+				}
+				break;
+			}
+		},
+		updateFacebook: function(data) {
+			var base = this;
+			var $holder = $('#' + base.id + ' > div > ul > li[data-role="facebook"] > a');
+			for(var i = 0 ; i < data.length ; i++) {
+				var item = data[i];
+				item.link = "https://www.facebook.com/kmaskylove";
+				$holder.attr('href', item.link);
+				if(item.thumbnail) {
+					$holder.find('span.img').css({ 'background-image': 'url(' + item.thumbnail + ')' });
+					if($holder.hasClass('no-image')) $holder.removeClass('no-image');
+				} else {
+					$holder.find('span.img').css({ 'background-image': ''});
+					if(!$holder.hasClass('no-image')) $holder.addClass('no-image');
+				}
+				
+				if(!item.title) {
+					$holder.find('strong').html(item.summary);
+				} else {
+					$holder.find('strong').html(item.title + "<br/>" + item.summary);	
+				}
+				break;
+			}
+			
+		},
+		error: function() {
+			var base = this;
+			return function(request, status) {
+				if(console) console.log(request, status);
+				showLoading(base.id, false);
+			};
+		},
+		addEventHandler: function() {
+			var base = this;
+			// save, cancel
+			var $wrapper = $('#' + base.id);
+			
+		}
+	};
+	
+	if (typeof exports !== 'undefined') exports.KmaSNS = KmaSNS;
+	else window.KmaSNS = KmaSNS;
+})(jQuery, window, document);

@@ -1,0 +1,37 @@
+/**
+ 예썰 목록
+ ①
+ ② 
+ ③
+ ④
+ ⑤
+ */
+'use strict';
+var ssulList = [
+  { title: "⑤ 이혜성 아나운서도 예보관 DNA?", videoId: "3DA_gP_F3Rw" },
+  { title: "④ 때로는 예보가 맞지 않길(?) 바란다", videoId: "TKS6fM9fk2M" },
+  { title: "③ 예보관은 매일 시험을 친다", videoId: "vxPjg_RhDuk" },
+  { title: "② 예보는 수읽기의 연속", videoId: "rCZCGX9bbw4" },
+  { title: "① 예보라는 블랙박스를 열다", videoId: "g4NOnLDZhas" },
+];
+
+function buildSsulList(list) {
+  if(!list) return;
+  var $holder = $('.ssul-yt-list').empty();
+  for(var i = 0 ; i < list.length ; i++) {
+    var item = list[i];
+    $holder.append('<a href="javascript:void(0);" ' + (i == 0 ? 'class="on" title="선택됨"' : '') + ' data-src="https://www.youtube.com/embed/' + item.videoId + '"><span>' + item.title + '</span></a>');
+  }
+  var $iframe = $('.ssul-list').prev().find('iframe');
+  if(list.length > 0) {
+    $iframe.attr('src', 'https://www.youtube.com/embed/' + list[0].videoId);
+  }
+  
+  $holder.on('click', 'a[data-src]', function(e) {
+    $(this).parent().find('a').removeClass('on').attr('title','');
+    $(this).addClass('on').attr('title','선택됨');
+    $iframe.attr('src', $(this).attr('data-src'));
+  });
+}
+
+buildSsulList(ssulList);

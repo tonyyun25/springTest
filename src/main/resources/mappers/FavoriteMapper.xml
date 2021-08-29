@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.lytear.springTest.lesson06.dao.FavoriteDAO">
+
+	<insert id="insertUser"  parameterType="map">
+	
+		INSERT INTO 
+			`favorite`
+		(
+			`name`
+			,`url`
+			,`createdAt`
+			,`updatedAt`
+		
+		)
+		VALUES
+		(
+			#{name}
+			,#{url}
+			,now()
+			,now()
+		)
+	
+	</insert>
+	
+	<select id="selectFavoriteList" resultType="com.lytear.springTest.lesson06.model.Favorite">
+		SELECT
+			`id`
+			,`name`
+			,`url`
+			,`createdAt`
+			,`updatedAt`
+		FROM	
+			`favorite`
+	
+	</select>
+	
+	
+	
+	
+
+
+</mapper>

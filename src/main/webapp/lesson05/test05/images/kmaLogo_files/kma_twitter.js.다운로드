@@ -1,0 +1,11 @@
+var twitterData = [ {
+  "category" : null,
+  "author" : null,
+  "id" : "1430849614031196161",
+  "title" : "",
+  "summary" : "@LTT127 앗 감사합니다:) 기상이 귀욤귀욤해요💕https://t.co/6vTwagrlUd",
+  "link" : "https://twitter.com/kma_skylove/status/1430849614031196161",
+  "thumbnail" : null,
+  "pubDate" : "2021-08-26 20:08:26 +0900"
+} ];
+updateTwitter(twitterData);
