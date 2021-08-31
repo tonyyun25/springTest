@@ -14,13 +14,27 @@ public class FavoriteBO {
 	@Autowired
 	private FavoriteDAO favoriteDAO;
 	
-	public int addUser(String name, String url) {
-		return favoriteDAO.insertUser(name, url);
+	public int addFavorite(String name, String url) {
+		return favoriteDAO.insertFavorite(name, url);
 	}
 	
 	
 	public List<Favorite> getFavoriteList() {
 		return favoriteDAO.selectFavoriteList();
 	}
+	
+	public boolean checkDuplicate(String url) {
+		int count = favoriteDAO.verifyDuplicate(url);
+		
+		if(count >= 1) {
+			return true;
+		} else {
+			return false;
+		}
+ 		
+	}
+	
+	
+	
 	
 }

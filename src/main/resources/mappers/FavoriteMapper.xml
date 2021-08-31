@@ -5,8 +5,8 @@
  
 <mapper namespace="com.lytear.springTest.lesson06.dao.FavoriteDAO">
 
-	<insert id="insertUser"  parameterType="map">
-	
+	<insert id="insertFavorite" parameterType="map" >
+	<!-- myBatis에서 알아서 맞춰주긴 하는데 문제가 발생할 수 있기 때문에 써 주는 게 좋아 -->
 		INSERT INTO 
 			`favorite`
 		(
@@ -38,7 +38,14 @@
 	
 	</select>
 	
-	
+	<select id="verifyDuplicate" parameterType="string" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			`favorite`
+		WHERE
+			`url` = #{url}
+	</select>
 	
 	
 

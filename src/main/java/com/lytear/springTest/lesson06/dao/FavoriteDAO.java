@@ -10,12 +10,17 @@ import com.lytear.springTest.lesson06.model.Favorite;
 @Repository
 public interface FavoriteDAO {
 	
-	public int insertUser(
+	public int insertFavorite(
 			@Param("name") String name
 			,@Param("url") String url
 			);
 	
 	public List<Favorite> selectFavoriteList();
+	
+	
+	public int verifyDuplicate(
+			@Param("url") String url
+			);
 	
 	
 }

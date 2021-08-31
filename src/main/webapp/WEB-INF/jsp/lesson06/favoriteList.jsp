@@ -21,7 +21,8 @@
 <body>
 	<div class="container">
 		<h1>즐겨찾기 목록</h1>
-		<table class="table">
+		
+		<table class="table text-center">
 			<thead>
 				<th>No.</th>
 				<th>이름</th>
@@ -37,10 +38,13 @@
 				<tr>
 					<td>${status.count }</td>
 					<td>${favorite.name }</td>
-					<td>${favorite.url }</td>
+					<td><a href="${favorite.url }">${favorite.url }</a></td>
+					
+					<!--  <td><a href="http://naver.com">http://naver.com</a></td>-->
+					
 				</tr>
 				</c:forEach>
-			
+				<!-- 임시 값을 넣은 다음 /lesson06/favorite_list으로 사이트 출력되는지 체크해 본다 -->
 			
 			</tbody>
 			
