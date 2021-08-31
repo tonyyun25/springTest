@@ -26,10 +26,10 @@
 			<label>주소</label>
 			<div class="d-flex">
 				<input type="text" name="url" class="form-control" placeholder="https://daum.net" id="urlInput">
-				<button type="button" class="btn btn-primary" id="isDuplicateCheck">중복확인</button>
+				<button type="button" class="btn btn-info" id="urlCheckBtn">중복체크</button>
 			</div>
-			<div class="text-danger d-none" id="duplicateCheck"><small>중복된 url입니다</small></div>
-			<div class="text-success d-none" id="noneDuplicateCheck"><small>사용가능한 url입니다</small></div>
+			<div class="text-danger d-none" id="duplicateDiv"><small>중복된 url입니다</small></div>
+			<div class="text-success d-none" id="noneDuplicateDiv"><small>사용가능한 url입니다</small></div>
 			
 			<!-- <input type="button" class="btn btn-secondary" id="addBtn" value="추가"> -->
 			 <button type="button" class="btn btn-secondary form-control" id="addFavorite" >추가</button> 
@@ -72,12 +72,12 @@
 				}	
 			
 				
-				if(isChecked == false) {
+				if(!isChecked) {
 					alert("중복체크를 진행해 주세요");
 					return;
 				}
 				
-				if(isDuplicate == true) {
+				if(isDuplicate) {
 					alert("중복된 url은 입력할 수 없습니다");	
 					return;
 				
@@ -107,7 +107,7 @@
 				
 			});
 			
-			$("#isDuplicateCheck").on("click",function(){
+			$("#urlCheckBtn").on("click",function(){
 				
 				
 				var url = $("#urlInput").val();
@@ -116,26 +116,33 @@
 					return;
 				
 				}
+
+				// http:// 또는 https://가 아니면 잘못된 url. &가 아니라 && 이다.
+				
+				if(!(url.startsWith("http://") || url.startsWith("https://"))) {
+					alert("잘못된 주소 형식입니다.")
+					return;
+				}	
 				
 				$.ajax({
-					type: "get", 
-					url: "/lesson06/duplicate_Check",
+					type: "post", 
+					url: "/lesson06/is_duplication",
 					
-					data: {"url":url},
+					data: {"url":url},//:url = 사용자가 입력해 놓은 값을 저장한 url 변수
 					
 					success:function(data){
 						
-						isChecked = true;
-						if(data.checkDuplicate) {
+						isChecked = true;// ajax 요청이 성공적으로 마무리됐을 때 true로 변경
+						if(data.isDuplicate) {//data 자체는 response를 의미하고 data 안에 isDuplicate 값으로 true, false 만들어놨어
 							//alert("중복입니다");
 							isDuplicate = true;
-							$("#duplicateCheck").removeClass("d-none");
-							$("#noneDuplicateCheck").addClass("d-none");
+							$("#duplicateDiv").removeClass("d-none");
+							$("#noneDuplicateDiv").addClass("d-none");
 						} else {
 							//alert("사용할 수 있는 주소입니다");
 							isDuplicate = false;
-							$("#noneDuplicateCheck").removeClass("d-none");
-							$("#duplicateCheck").addClass("d-none");
+							$("#noneDuplicateDiv").removeClass("d-none");
+							$("#duplicateDiv").addClass("d-none");
 						}
 						
 					},

@@ -74,22 +74,39 @@ public class FavoriteController {
 		return "lesson06/favoriteList";
 	}
 	
-	@GetMapping("/duplicate_Check")
+	@PostMapping("/is_duplication")
 	@ResponseBody
-	public Map<String, Boolean> duplicateCheck(
+	public Map<String, Boolean> isDuplication(
 			@RequestParam("url") String url
 		
 			) {
 		
+		boolean isDuplicate = favoriteBO.isDuplicateUrl(url);// 추가
+		
 		Map<String, Boolean> result = new HashMap<>();
 		
-		if(favoriteBO.checkDuplicate(url)) {
-			result.put("checkDuplicate",true);
+		
+		if(isDuplicate) {
+			result.put("isDuplicate",true);
 		} else {
-			result.put("checkDuplicate",false);
+			result.put("isDuplicate",false);
 		}
+//		컨트롤러는 BO에 url 줄 테니 중복 여부 알아와 명령함. BO, DAO 뭔지 컨트롤러는 신경 안 씀
 		return result;
 	}
+	
+	@GetMapping("/deleteList")
+	@ResponseBody
+	public String isDelete(
+			@RequestParam("id") int id
+			) {
+		
+		
+		int count = favoriteBO.removeList(id);
+		return "삭제 성공 " + count;
+	}
+	
+	
 	
 	
 	

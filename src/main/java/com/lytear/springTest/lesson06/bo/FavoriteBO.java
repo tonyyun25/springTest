@@ -23,8 +23,8 @@ public class FavoriteBO {
 		return favoriteDAO.selectFavoriteList();
 	}
 	
-	public boolean checkDuplicate(String url) {
-		int count = favoriteDAO.verifyDuplicate(url);
+	public boolean isDuplicateUrl(String url) {
+		int count = favoriteDAO.selectCountUrl(url);
 		
 		if(count >= 1) {
 			return true;
@@ -32,6 +32,10 @@ public class FavoriteBO {
 			return false;
 		}
  		
+	}
+	
+	public int removeList(int id) {
+		return favoriteDAO.deleteList(id);
 	}
 	
 	

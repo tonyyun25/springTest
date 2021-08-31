@@ -18,8 +18,13 @@ public interface FavoriteDAO {
 	public List<Favorite> selectFavoriteList();
 	
 	
-	public int verifyDuplicate(
-			@Param("url") String url
+	public int selectCountUrl(
+			//@Param("url") String url
+			String url
+			);
+	
+	public int deleteList(
+			@Param("id") int id
 			);
 	
 	

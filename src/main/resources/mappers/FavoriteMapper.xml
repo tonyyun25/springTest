@@ -38,7 +38,7 @@
 	
 	</select>
 	
-	<select id="verifyDuplicate" parameterType="string" resultType="int">
+	<select id="selectCountUrl" parameterType="string" resultType="int">
 		SELECT
 			count(*)
 		FROM
@@ -46,6 +46,17 @@
 		WHERE
 			`url` = #{url}
 	</select>
+	
+	<delete id="deleteList" parameterType="int">
+		DELETE FROM
+			`favorite`
+		WHERE
+			`id` = #{id }
+	
+	
+	
+	</delete>
+	
 	
 	
 
