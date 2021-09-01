@@ -95,15 +95,29 @@ public class FavoriteController {
 		return result;
 	}
 	
-	@GetMapping("/deleteList")
+	@GetMapping("/favorite_delete")
 	@ResponseBody
-	public String isDelete(
-			@RequestParam("id") int id
+	public Map<String, String> isDelete(//해당하는 맵의 형태대로 json에 실어서 ajax에 전달됨
+			//@RequestParam("id") int id
+			@RequestParam("favoriteId") int favoriteId
+			
 			) {
 		
 		
-		int count = favoriteBO.removeList(id);
-		return "삭제 성공 " + count;
+		//int count = favoriteBO.deleteFavorite(id);
+		int count = favoriteBO.deleteFavorite(favoriteId);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else{
+			result.put("result", "fail");
+		}
+		
+		
+//		return "삭제 성공 " + count;
+		return result;
 	}
 	
 	

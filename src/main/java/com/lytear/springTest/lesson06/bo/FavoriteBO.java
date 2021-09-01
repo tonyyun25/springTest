@@ -33,9 +33,9 @@ public class FavoriteBO {
 		}
  		
 	}
-	
-	public int removeList(int id) {
-		return favoriteDAO.deleteList(id);
+	// update, delete는 각각 수정, 삭제된 행의 개수가 나옴 (workbench)
+	public int deleteFavorite(int id) {
+		return favoriteDAO.deleteFavorite(id);
 	}
 	
 	

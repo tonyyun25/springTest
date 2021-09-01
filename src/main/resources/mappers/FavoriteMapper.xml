@@ -47,7 +47,7 @@
 			`url` = #{url}
 	</select>
 	
-	<delete id="deleteList" parameterType="int">
+	<delete id="deleteFavorite" parameterType="int">
 		DELETE FROM
 			`favorite`
 		WHERE

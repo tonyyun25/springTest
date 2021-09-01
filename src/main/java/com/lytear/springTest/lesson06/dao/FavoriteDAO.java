@@ -19,11 +19,11 @@ public interface FavoriteDAO {
 	
 	
 	public int selectCountUrl(
-			//@Param("url") String url
-			String url
+			@Param("url") String url // 명확하게 @Param annotation 붙여 주는 것이 좋음
+			//String url 
 			);
 	
-	public int deleteList(
+	public int deleteFavorite(
 			@Param("id") int id
 			);
 	
