@@ -76,7 +76,7 @@
 						// data-로 시작하는 함수는 아래와 같이 data 로서 데이터 가져올 수 있다 
 						var favoriteId = $(this).data("favorite-id");//data 메소드로 해당하는 속성 안에 들어오는 값을 꺼내 저장함
 						
-						//alert(favoriteId);
+						//alert(favoriteId); // 값을 잘 꺼내왔는지 alert을 통해 확인
 						// 버튼에서 data- 라고 표시하면(뒤에는 아무거나 붙어도 상관 없음) 여기서 data() 통해 값 꺼내올 수 있음
 						
 					

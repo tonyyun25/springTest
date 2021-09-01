@@ -1,17 +1,28 @@
 #wrap {
 	width: 1200px;
-	height: 800px;
+	
 	margin: auto;
-	background-color:crimson;
+	
 	
 }	
 
 header {
-	height: 70px;
+	height: 150px;
 	
 }
+.nav-link {
+    background-color:peru;
+    color: white;
+    font-size: 17px;
+    /* RGB 선택해서 # 시작 16진수 선택 */
+}
+.nav-link:hover {
+    background-color: #ee9c4b;
+}
+
+
 .content {
-	height: 400px;
+	
 	
 }
 footer {

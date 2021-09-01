@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.lytear.springTest.lesson06.dao.BookingDAO">
+ 
+ 	<insert id="insertBookList" parameterType="map">
+ 		INSERT INTO `booking`
+ 		(
+ 			`name`
+ 			,`headcount`
+ 			,`day`
+ 			,`date`
+ 			,`phoneNumber`
+ 			,`state`
+ 			,`createdAt`
+ 			,`updatedAt`
+ 		)
+ 		
+ 		VALUES
+ 		(
+ 			#{name}
+ 			,#{headcount}
+	 		,#{day}
+	 		,#{date}
+	 		,#{phoneNumber}
+	 		,'대기중'
+ 			,now()
+ 			,now()
+ 		
+ 		)
+ 	
+ 	</insert>
+ 
+ 	<select id="selectBookList" resultType="com.lytear.springTest.lesson06.model.Booking">
+ 		SELECT
+ 			`id`
+ 			,`name`
+ 			,`headcount`
+ 			,`day`
+ 			,`date`
+ 			,`phoneNumber`
+ 			,`state`
+ 		
+ 		FROM
+ 			`booking`
+ 	
+ 	
+ 	</select>
+ 	<delete id="delete_list" parameterType="int">
+ 		DELETE FROM
+ 			`booking` 
+ 		WHERE
+ 			`id` = #{id }
+ 	
+ 	
+ 	</delete>
+ 
+ 
+ 
+ 
+ </mapper>
+ 
+
+ 
+ 
