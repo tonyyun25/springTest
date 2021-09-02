@@ -64,9 +64,40 @@
  	
  	</insert>
  
-
+	<select id="selectCountMember" parameterType="map" resultType="int">
+	
+		SELECT 
+			count(*)
+		FROM
+			`booking`	
+		WHERE
+			`name` = #{name}
+			AND
+			`phoneNumber` = #{phoneNumber}
+				 
+	</select>
  	
- 
+ 	<select id="selectSchedule" resultType="int" parameterType="string">
+ 		SELECT
+			`id`
+ 			,`name`
+ 			,`headcount`
+ 			,`day`
+ 			,`date`
+ 			,`phoneNumber`
+ 			,`state`
+ 			,`createdAt`
+ 			,`updatedAt`
+ 			
+ 		FROM
+ 			`booking`
+ 		
+ 		WHERE
+ 			`name` = #{name}
+ 			AND
+ 			`phoneNumber` = #{phoneNumber}
+ 	
+ 	</select>
  
  
  

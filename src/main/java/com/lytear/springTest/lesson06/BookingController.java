@@ -129,12 +129,53 @@ public class BookingController {
 		return result;
 		
 	}
+	@GetMapping("/main_page") 
+	public String mainPage() {
+		
+		return "lesson06/test03/checkReservation";
+	}
 	
 	
 	
+	@GetMapping("/is_Reserved")
+	@ResponseBody
+	public Map<String, Boolean> checkReservation(
+			@RequestParam("name") String name
+			,@RequestParam("phoneNumber") String phoneNumber
+			) {
+		
+		
+		boolean checkReservation = bookingBO.isDuplicate(name, phoneNumber);
+		
+		Map<String, Boolean> result = new HashMap<>();
+		
+		if(checkReservation == true) {
+			result.put("checkReservation",true);
+		} else {
+			result.put("checkReservation",false);
+		}
+		
+		return result;
+	}
 	
-	
-	
+	@GetMapping("/confirmed_person")
+	public Map<String, String> confirmedPerson(
+			@RequestParam("name") String name
+			,@RequestParam("phoneNumber") String phoneNumber
+			) {
+		
+		int count = bookingBO.getSchedule(name, phoneNumber);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count >= 1) {
+			result.put("result","success");
+		} else {
+			result.put("result","fail");
+		}
+		return result;
+		
+	}
 	
 	
 	

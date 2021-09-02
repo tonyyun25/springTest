@@ -1,0 +1,81 @@
+
+
+
+#wrap {
+	width: 1200px;
+	
+	margin: auto;
+	
+	
+}	
+
+header {
+	
+	
+}
+.nav-link {
+    background-color:peru;
+    color: white;
+    font-size: 17px;
+    /* RGB 선택해서 # 시작 16진수 선택 */
+}
+.nav-link:hover {
+    background-color: #ee9c4b;
+}
+
+
+.content {
+	
+	
+}
+
+.reservation {
+    background-color: sienna;
+    height: 300px;
+    color:white;
+    width: 400px;
+}
+
+
+.reservation-confirm {
+    
+    background-color: chocolate;
+    
+    height:300px;
+    width: 500px;
+    color:white;
+}
+
+.reservation-call {
+    background-color: sienna;
+    height:300px;
+    color:white;
+    width: 300px;
+    
+}
+
+
+.no-member-input {
+    width:400px;
+}
+
+/* 아이디, 비밀번호 */
+.input-label {
+    width:90px;
+
+}
+
+
+/* 아이디 인풋박스 */
+.text-input {
+    width:300px !important;
+
+}
+
+
+address {
+	font-size: 12px;
+    color:gray;
+}
+
+
