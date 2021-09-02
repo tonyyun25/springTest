@@ -6,7 +6,36 @@
  
  <mapper namespace="com.lytear.springTest.lesson06.dao.BookingDAO">
  
- 	<insert id="insertBookList" parameterType="map">
+  	<select id="selectBookingList" resultType="com.lytear.springTest.lesson06.model.Booking">
+ 		SELECT
+ 			`id`
+ 			,`name`
+ 			,`headcount`
+ 			,`day`
+ 			,`date`
+ 			,`phoneNumber`
+ 			,`state`
+ 			,`createdAt`
+ 			,`updatedAt`
+ 			
+ 		
+ 		FROM
+ 			`booking`
+ 	
+ 	
+ 	</select>
+ 
+ 
+	<delete id="deleteBooking" parameterType="int">
+ 		DELETE FROM
+ 			`booking` 
+ 		WHERE
+ 			`id` = #{id }
+ 	
+ 	
+ 	</delete>
+ 	 
+ 	<insert id="insertBooking" parameterType="map">
  		INSERT INTO `booking`
  		(
  			`name`
@@ -26,7 +55,8 @@
 	 		,#{day}
 	 		,#{date}
 	 		,#{phoneNumber}
-	 		,'대기중'
+	 		<!--  ,'대기중'-->
+	 		,#{state}
  			,now()
  			,now()
  		
@@ -34,29 +64,8 @@
  	
  	</insert>
  
- 	<select id="selectBookList" resultType="com.lytear.springTest.lesson06.model.Booking">
- 		SELECT
- 			`id`
- 			,`name`
- 			,`headcount`
- 			,`day`
- 			,`date`
- 			,`phoneNumber`
- 			,`state`
- 		
- 		FROM
- 			`booking`
+
  	
- 	
- 	</select>
- 	<delete id="delete_list" parameterType="int">
- 		DELETE FROM
- 			`booking` 
- 		WHERE
- 			`id` = #{id }
- 	
- 	
- 	</delete>
  
  
  

@@ -30,7 +30,7 @@ public class BookingController {
 	
 	/*
 	 * 
-	 * [url 표시 에러]
+	 * [url 검사에서 표시 에러]
 	Failed to load resource: the server responded with a status of 500 ()
 	[spring 표시 에러]
 	### Error updating database.  Cause: java.sql.SQLException: Field 'state' doesn't have a default value
@@ -46,15 +46,69 @@ public class BookingController {
 	@Autowired
 	private BookingBO bookingBO;
 	
-	@RequestMapping("/addBooking")
+	@GetMapping("/booking_list")
+	public String bookingList(Model model) {
+		
+		List<Booking> bookingList = bookingBO.getBookingList(); 
+		
+		model.addAttribute("bookingList", bookingList );
+		
+		
+		return "lesson06/test03/bookingList";
+	}
+	
+	@GetMapping("/booking_delete")
+	@ResponseBody
+	public Map<String, String> delete(
+				@RequestParam("id") int sam // 
+				// data:{"bookingId":bookingId} 중 뒤의 이름이 여기 @RequestParam 안에 들어가면 된다
+			) {
+		
+		int count = bookingBO.deleteBooking(sam);
+		
+/* 아래도 삭제 성공
+		public Map<String, String> delete_list(
+				@RequestParam("bookListId") int bookListId
+			) {
+		int count = bookingBO.removeList(bookListId);
+*/
+/* 아래도 삭제 성공
+ * 	public Map<String, String> delete_list(
+				@RequestParam("bookListId") int id
+
+			) {
+		
+		int count = bookingBO.removeList(id);
+ * 
+ * */		
+//	결론 : 위의 RequestParam("bookListId") 뒤의 변수는 값을 저장하는 것으로 어떤 이름이 와도 가능하고 
+//		뒤의 int count와 같은 변수 이름만 들어가면 된다
+//  단, RequestParam 뒤에는 bookingList.jsp에서 받은 각각의 id를 지정하는 변수 이름을 정확히 넣어야 한다		
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	@GetMapping("/add_booking_view")
 	public String addBooking() {
-		return "lesson06/add_booking";
+		return "lesson06/test03/addBooking";
 		
 	}
 	
-	@GetMapping("/addToList")
+	@GetMapping("/add_booking")
 	@ResponseBody
-	public Map<String, String> addList(
+	public Map<String, String> addBooking(
 			@RequestParam("name") String name
 			,@RequestParam("date") String date
 			,@RequestParam("day") int day
@@ -62,7 +116,7 @@ public class BookingController {
 			,@RequestParam("phoneNumber") String phoneNumber
 			) {
 		
-		int count = bookingBO.add_toList(name, date, day, headcount, phoneNumber);
+		int count = bookingBO.addBooking(name, date, day, headcount, phoneNumber);
 		
 		Map<String, String> result = new HashMap<>();
 		
@@ -78,40 +132,8 @@ public class BookingController {
 	
 	
 	
-	@GetMapping("/bookListByLine")
-	public String bookListbyLine(Model model) {
-		
-		List<Booking> bookListbyLine = bookingBO.getBookList(); 
-		
-		model.addAttribute("bookListbyLine", bookListbyLine );
-		
-		
-		return "lesson06/bookingList";
-	}
 	
 	
-	
-	@GetMapping("/deleteList")
-	@ResponseBody
-	public Map<String, String> delete_list(
-//				@RequestParam("bookListId") int id
-				@RequestParam("bookListId") int bookListId
-			) {
-		
-//		int count = bookingBO.removeList(id);
-		int count = bookingBO.removeList(bookListId);
-		
-				
-		Map<String, String> result = new HashMap<>();
-		
-		if(count == 1) {
-			result.put("result", "success");
-		} else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	}
 	
 	
 	

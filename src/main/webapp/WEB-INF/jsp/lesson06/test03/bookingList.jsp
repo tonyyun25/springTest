@@ -8,6 +8,7 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>예약 목록 보기</title>
+		<!-- stylesheet는 web-inf 아래에 두면 접근 못하고 외부에서 접근하는 것처럼 경로를 잡아준다 -->
 		<link rel="stylesheet" href="/lesson06/test01/css/style.css" type="text/css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -26,8 +27,8 @@
 	               <ul class="nav nav-fill">
 	                   <li class="nav-item"><a class="nav-link " href="#">펜션소개</a></li>
 	                   <li class="nav-item"><a class="nav-link " href="#">객실보기</a></li>
-	                   <li class="nav-item"><a class="nav-link"  href="#">예약안내</a></li>
-	                   <li class="nav-item"><a class="nav-link " href="#">커뮤니티</a></li>
+	                   <li class="nav-item"><a class="nav-link"  href="/lesson06/add_booking_view">예약하기</a></li>
+                   	   <li class="nav-item"><a class="nav-link " href="/lesson06/booking_list">예약목록</a></li>
 	               </ul>
 	           </nav>
 	
@@ -36,9 +37,9 @@
 	        <section class=" content">
 	        	
 	        	
-		        	<h2 class="text-center">예약 목록 보기</h2>
+		        	<h2 class="text-center my-3">예약 목록 보기</h2><!-- my는 top, bottom 한꺼번에 -->
 		        	
-		        	<table class="table mt-3 text-center">
+		        	<table class="table text-center">
 		        		<thead>
 		        			<th>이름</th>
 			        		<th>예약날짜</th>
@@ -50,32 +51,33 @@
 			        	</thead>
 		        	
 		        		<tbody>
-		        			<c:forEach var="bookList" items="${bookListbyLine }">
+		        			<c:forEach var="booking" items="${bookingList }">
 		        			<tr class="font-weight-bold">
-		        				<td>${bookList.name }</td>
+		        				<td>${booking.name }</td>
 		        				
 		        				<td>
-		        					<fmt:formatDate value="${bookList.date }" pattern="yyyy년M월d일" />
+		        					<fmt:formatDate value="${booking.date }" pattern="yyyy년 M월 d일" />
 		        				</td>
 		        				
-		        				<td>${bookList.day }</td>
-		        				<td>${bookList.headcount }</td>
-		        				<td>${bookList.phoneNumber }</td>
+		        				<td>${booking.day }</td>
+		        				<td>${booking.headcount }</td>
+		        				<td>${booking.phoneNumber }</td>
 		        				<td>
 		        					<c:choose>
-		        						<c:when test="${bookList.state == '대기중'}">
-		        							<span class="text-info">${bookList.state }</span>
+		        						<c:when test="${booking.state eq '대기중'}"><!-- == 보다 eq 깔끔 -->
+		        							<span class="text-info">${booking.state }</span>
 		        						</c:when>
-		        						<c:when test="${bookList.state eq '확정'}">
-		        							<span class="text-success">${bookList.state }</span>
+		        						<c:when test="${booking.state eq '확정'}">
+		        							<span class="text-success">${booking.state }</span>
 		        						</c:when>
 		        						<c:otherwise>
-		        							${bookList.state }
+		        							${booking.state }
 		        						</c:otherwise>
 		        					
 		        					</c:choose>
 		        				</td>
-		        				<td><button type="button" class="btn btn-sm btn-danger deleteBtn" data-bookList-id="${bookList.id }">삭제</button></td>
+		        				<!-- 1. data 속성에는 대문자를 사용할 수 없습니다. 꼭 소문자와 - 의 조합으로 만드셔야합니다 : bookList-id 안 됨 -->
+		        				<td><button type="button" class="btn btn-sm btn-danger deleteBtn" data-booking-id="${booking.id }">삭제</button></td>
 		        			</tr>
 		        			</c:forEach>
 		        		</tbody>
@@ -84,39 +86,34 @@
 		        			$(document).ready(function(){
 		        				$(".deleteBtn").on("click",function(){
 		        					//alert("OK");
-		        					var bookListId = $(this).data("bookList-id");
-		        					// 값을 잘 꺼내왔는지 alert을 통해 확인
-		        					alert(bookListId);
+		        					var bookingId = $(this).data("booking-id");
+		        					// 값을 잘 꺼내왔는지 alert을 통해 확인. 데이터 속성 만들 때 대문자 포함하면 값 못 가져와. 소문자와 빼기 기호만 가능
+		        					alert(bookingId);
 		        					
 		        					
-		        					//var bookListId = $(this).attr("bookList-id");
+		        					//var bookListId = $(this).attr("booking-id");
 		        					
 		        					$.ajax({
 		        						type:"get",
-		        						url:"/lesson06/deleteList",
-		        						data:{"bookListId":bookListId},
+		        						url:"/lesson06/booking_delete",
+		        						data:{"id":bookingId}, 
+		        						// 서버에서 id라는 이름으로 받기로 했다면 data:{"id":bookingId} 
+		        						
 		        						
 		        						success:function(data) {
 		        							
 		        							if(data.result == "success") {
-		        								alert("삭제 성공");
+		        								//alert("삭제 성공");
+		        								location.reload();
 		        							} else {
 		        								alert("삭제 실패");
 		        							}
-		        							
-		        							
-		        						}
-		        						,error:function(e) {
+		        						},
+		        						error:function(e) {
 		        							alert("error");
 		        						}
-		        						
-		        						
 		        					});
-		        					
-		        					
 		        				});
-		        				
-		        				
 		        				
 		        			});
 		        		
