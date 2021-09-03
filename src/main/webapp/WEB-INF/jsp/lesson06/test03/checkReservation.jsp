@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>      
-    
-    
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>     
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>    
 <!DOCTYPE html>
 <html>
     <head>
@@ -140,8 +140,10 @@
                     );
                     */
                     
-                    // 중복 확인과 같은 방식으로 ajax 이용하여 접근
+                    // 중복체크시 count 쓴 건은 다른 데이터 필요 없었기 때문. 지금 상황은 데이터 그냥 가져와서 보여줘
+                    // ajax는 html 포함한 view 내용은 전혀 없고 data만 주고받음 (api) => json 형태 만드는 게 중요
                     
+                   
                     $.ajax({
                     	type: "get",	
                     	url: "/lesson06/confirmed_person",
@@ -154,9 +156,26 @@
                     			alert("조회 결과가 없습니다");
                     			
                     		} else {
-                    			// 이름, 날짜, 일수, 인원, 상태
-                    			//alert("이름 : " + name + "\n" + "날짜 : ")
-                    			alert(data.result);
+                    			/*java 에서는 Date 객체이지만
+								리턴하는 순간 얜 json 이라고 하는 형태의 문자열로 변환됩니다
+								ajax에서 쓰는 객체는 json을 다시 객체화 시킨것으로 java객체와는 전혀 연관성이 없습니다
+								date는 문자열로 바로 인지하고 처리하시면 됩니다
+								*/
+                    			
+                    			
+                    			alert(
+                    					"이름 : " + data.result.name + "\n"
+                    					+ "날짜 : " + 
+                    						//${fn:substring(date, 2, 3) }
+                    						//${fn:substring(data.result.date, 2, 3) }
+                    						data.result.date.substring(0,10)
+                    						
+                    						+ "\n"
+                    					+ "일수 : " + data.result.day + "\n"
+                    					+ "인원 : " + data.result.headcount + "\n"
+                    					+ "상태 : " + data.result.state
+                    			);
+                    		
                     		}
                     	},
                     	error:function(e){
