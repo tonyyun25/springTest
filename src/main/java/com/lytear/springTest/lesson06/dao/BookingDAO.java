@@ -32,14 +32,10 @@ public interface BookingDAO { // 다른 회사에서는 키워드를 DAO가 아�
 			,@Param("state") String state
 			);
 	
-	public int selectCountMember(
-			@Param("name") String name
-			,@Param("phoneNumber") String phoneNumber 
-			);
 	
-	public int selectSchedule(
+	public Booking selectSchedule(
 			@Param("name") String name
-			,@Param("phoneNumber") String phoneNumber 
+			,@Param("phoneNumber") String phoneNumber
 			);
 	
 	

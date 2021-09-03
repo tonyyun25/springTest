@@ -108,31 +108,7 @@
                 </address>
          	</footer>
          	
-         	<table class="table">
-         		<thead>
-         			<th>이름</th>
-	         		<th>날짜</th>
-	         		<th>일수</th>
-	         		<th>인원</th>
-	         		<th>상태</th>
-         		</thead>
-         		
-         		<tbody>
-         			
-         			<c:forEach var="" items="">
-         			<tr>
-         				<td>${ }</td>
-         				<td>2021-06-30</td>
-         				<td>2</td>
-         				<td>4</td>
-         				<td>대기중</td>
-         			</tr>
-         			</c:forEach>
-         			
-         			
-         		</tbody>
-         		
-         	</table>
+         	
         </div>
         <script>
             
@@ -157,7 +133,7 @@
                         alert("010으로 시작하는 번호만 입력해 주세요");
                         return;
                     }
-                    /*
+                    /* 이 위치 alert 정상 작동
                     alert(
                     "이름 : " + name  + "\n" +
                     "전화번호 : " + phoneNumber + "\n"
@@ -165,38 +141,23 @@
                     */
                     
                     // 중복 확인과 같은 방식으로 ajax 이용하여 접근
+                    
                     $.ajax({
                     	type: "get",	
-                    	url: "/lesson06/is_Reserved",
-                    	//url: "/lesson06/booking_list", // 이거 선택하면 아래 data:{"name":name, "phoneNumber":phoneNumber}, 을 수정해야 함
+                    	url: "/lesson06/confirmed_person",
                     	
-                    	//data:{"name":name, "phoneNumber":phoneNumber},
                     	data:{"name":name, "phoneNumber":phoneNumber},
-                    	
-                    	
-                    	
-                    	//data:{"name":${bookingList.name}}, // 에러
-                    	
                     	//data:{"name":샵{bookingList.name}}, // 주석처리해도 샵 기호 때문에 에러 발생해 버림
-                    	
-                    	
                     	success:function(data){
                     		//alert("확인");
-                    		if(data.checkReservation == true){//true, false는 eq 안 먹힘
-                    			//alert("예약명단에 있습니다");
-                    			// 이름, 날짜, 일수, 인원, 상태
-                    		
-                    			alert("이름 : " + name + "\n" + "날짜 : ")
-                    		
-                    		
-                    		
-                    		
-                    		
-                    		} else {
+                    		if(data.result == null){//true, false는 eq 안 먹힘
                     			alert("조회 결과가 없습니다");
+                    			
+                    		} else {
+                    			// 이름, 날짜, 일수, 인원, 상태
+                    			//alert("이름 : " + name + "\n" + "날짜 : ")
+                    			alert(data.result);
                     		}
-                    		
-                    		
                     	},
                     	error:function(e){
                     		alert("에러");
@@ -204,11 +165,6 @@
                     
                     
                     });
-                    
-                    
-                    
-                    
-                    
                     
                 });
                 // var imageList = [

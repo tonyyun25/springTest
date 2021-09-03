@@ -48,17 +48,9 @@ public class BookingBO {
 		return bookingDAO.insertBooking(name, date, day, headcount, phoneNumber, "대기중");
 	}
 	
-	public boolean isDuplicate(String name , String phoneNumber) {
-		
-		int count = bookingDAO.selectCountMember(name, phoneNumber);
-		if(count >= 1) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
-	public int getSchedule(String name, String phoneNumber) {
+	
+	public Booking getSchedule(String name, String phoneNumber) {
 		return bookingDAO.selectSchedule(name, phoneNumber);
 	}
 	

@@ -64,20 +64,10 @@
  	
  	</insert>
  
-	<select id="selectCountMember" parameterType="map" resultType="int">
 	
-		SELECT 
-			count(*)
-		FROM
-			`booking`	
-		WHERE
-			`name` = #{name}
-			AND
-			`phoneNumber` = #{phoneNumber}
-				 
-	</select>
  	
- 	<select id="selectSchedule" resultType="int" parameterType="string">
+ 	<select id="selectSchedule" resultType="com.lytear.springTest.lesson06.model.Booking"
+ 	parameterType="string">
  		SELECT
 			`id`
  			,`name`

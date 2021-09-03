@@ -63,9 +63,7 @@ public class BookingController {
 				@RequestParam("id") int sam // 
 				// data:{"bookingId":bookingId} 중 뒤의 이름이 여기 @RequestParam 안에 들어가면 된다
 			) {
-		
 		int count = bookingBO.deleteBooking(sam);
-		
 /* 아래도 삭제 성공
 		public Map<String, String> delete_list(
 				@RequestParam("bookListId") int bookListId
@@ -75,30 +73,20 @@ public class BookingController {
 /* 아래도 삭제 성공
  * 	public Map<String, String> delete_list(
 				@RequestParam("bookListId") int id
-
 			) {
-		
 		int count = bookingBO.removeList(id);
- * 
  * */		
 //	결론 : 위의 RequestParam("bookListId") 뒤의 변수는 값을 저장하는 것으로 어떤 이름이 와도 가능하고 
 //		뒤의 int count와 같은 변수 이름만 들어가면 된다
-//  단, RequestParam 뒤에는 bookingList.jsp에서 받은 각각의 id를 지정하는 변수 이름을 정확히 넣어야 한다		
-		
+//  단, RequestParam 뒤에는 bookingList.jsp에서 받은 각각의 id를 지정하는 변수 이름을 정확히 넣어야 한다	
 		Map<String, String> result = new HashMap<>();
-		
 		if(count == 1) {
 			result.put("result", "success");
 		} else {
 			result.put("result", "fail");
 		}
-		
 		return result;
 	}
-	
-	
-	
-	
 	
 	@GetMapping("/add_booking_view")
 	public String addBooking() {
@@ -119,64 +107,54 @@ public class BookingController {
 		int count = bookingBO.addBooking(name, date, day, headcount, phoneNumber);
 		
 		Map<String, String> result = new HashMap<>();
-		
-		
 		if(count == 1) {
 			result.put("result","success");
 		} else {
 			result.put("result","fail");
 		}
 		return result;
-		
 	}
+	
 	@GetMapping("/main_page") 
 	public String mainPage() {
 		
 		return "lesson06/test03/checkReservation";
 	}
 	
-	
-	
-	@GetMapping("/is_Reserved")
+	@RequestMapping("/confirmed_person")
 	@ResponseBody
-	public Map<String, Boolean> checkReservation(
+	//public Booking confirmedPerson(
+	public Map<String, Booking> confirmedPerson(
+							
 			@RequestParam("name") String name
 			,@RequestParam("phoneNumber") String phoneNumber
 			) {
 		
+		//return bookingBO.getSchedule(name, phoneNumber);//여기까지 ok
+		//Booking result = bookingBO.getSchedule(name, phoneNumber);
 		
-		boolean checkReservation = bookingBO.isDuplicate(name, phoneNumber);
+		Booking books = bookingBO.getSchedule(name, phoneNumber);
 		
-		Map<String, Boolean> result = new HashMap<>();
 		
-		if(checkReservation == true) {
-			result.put("checkReservation",true);
-		} else {
-			result.put("checkReservation",false);
-		}
 		
-		return result;
-	}
-	
-	@GetMapping("/confirmed_person")
-	public Map<String, String> confirmedPerson(
-			@RequestParam("name") String name
-			,@RequestParam("phoneNumber") String phoneNumber
-			) {
 		
-		int count = bookingBO.getSchedule(name, phoneNumber);
+		Map<String, Booking> result = new HashMap<>();
 		
-		Map<String, String> result = new HashMap<>();
+		result.put("result",books);
 		
-		if(count >= 1) {
-			result.put("result","success");
-		} else {
-			result.put("result","fail");
-		}
+		
 		return result;
 		
 	}
 	
+
+	/*
+	 * Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception 
+	 * [Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: 
+	 * nested exception is org.apache.ibatis.type.TypeException: Could not set parameters for 
+	 * mapping: ParameterMapping{property='name', mode=IN, javaType=class java.lang.Integer, 
+	 * jdbcType=null, numericScale=null, resultMapId='null', jdbcTypeName='null', expression='null'}. 
+	 * */
 	
 	
 	
