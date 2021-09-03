@@ -115,32 +115,52 @@ public class BookingController {
 		return result;
 	}
 	
-	@GetMapping("/main_page") 
-	public String mainPage() {
+	@GetMapping("/booking_main") 
+	public String bookingMain() {
 		
-		return "lesson06/test03/checkReservation";
+		return "lesson06/test03/main";
 	}
 	
-	@RequestMapping("/confirmed_person")
-	@ResponseBody
-	//public Booking confirmedPerson(
-	public Map<String, Booking> confirmedPerson(
-							
-			@RequestParam("name") String name
+	// 정답 1
+	/*
+	@GetMapping("/booking_lookup")// 이름, 전화번호 정도라 get
+	@ResponseBody // 데이터를 (맵) 돌려주는 api 형태로 만들기 때문에 사용
+	public Booking bookingLookup(
+	//public Map<String, Booking> confirmedPerson( // 내가 쓴 방식
+	//public Map<String, Object> bookingLookup( // 문제:booking이 select된 결과가 없으면 null이 된다 						
+			@RequestParam("name") String name // name이라는 이름(앞)으로 전달받아서 name이라는 변수(뒤)로 저장
 			,@RequestParam("phoneNumber") String phoneNumber
 			) {
+		// 여기까지 하고 BO 작성
+		// Mybatis에서 쿼리 수행 결과로 아래 만들어 줌
+		Booking booking = bookingBO.getBookingListByNamePhoneNumber(name, phoneNumber);
 		
-		//return bookingBO.getSchedule(name, phoneNumber);//여기까지 ok
-		//Booking result = bookingBO.getSchedule(name, phoneNumber);
+//		Map<String, Booking> result = new HashMap<>();// 내가 쓴 방식	
+//		result.put("result",booking);// 내가 쓴 방식	
+//		return result;// 내가 쓴 방식
 		
-		Booking books = bookingBO.getSchedule(name, phoneNumber);
+		return booking;
+	}
+	*/
+	
+	// 정답 1.1. select 된 결과가 없을 때 보여줄 수 있는 방식
+	@GetMapping("/booking_lookup")
+	@ResponseBody 
+	
+	public Map<String, Object> bookingLookup( // 문제:booking이 select된 결과가 없으면 null이 된다 						
+			@RequestParam("name") String name 
+			,@RequestParam("phoneNumber") String phoneNumber
+			) {
+		// booking이 select 된 결과가 없으면 null 이 된다. booking이 null 인 경우에 map에 어떤 값을 넣고 null이 아닌 경우에 어떤 값 넣고
+		Booking booking = bookingBO.getBookingListByNamePhoneNumber(name, phoneNumber);
 		
+		Map<String, Object> result = new HashMap<>();
 		
-		
-		
-		Map<String, Booking> result = new HashMap<>();
-		
-		result.put("result",books);
+		if(booking == null) {
+			result.put("result","fail");
+		} else {
+			result.put("result",booking);
+		}
 		
 		
 		return result;
@@ -148,14 +168,5 @@ public class BookingController {
 	}
 	
 
-	/*
-	 * Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception 
-	 * [Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: 
-	 * nested exception is org.apache.ibatis.type.TypeException: Could not set parameters for 
-	 * mapping: ParameterMapping{property='name', mode=IN, javaType=class java.lang.Integer, 
-	 * jdbcType=null, numericScale=null, resultMapId='null', jdbcTypeName='null', expression='null'}. 
-	 * */
-	
-	
 	
 }

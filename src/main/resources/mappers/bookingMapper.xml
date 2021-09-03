@@ -65,9 +65,9 @@
  	</insert>
  
 	
- 	
- 	<select id="selectSchedule" resultType="com.lytear.springTest.lesson06.model.Booking"
- 	parameterType="string">
+ 	<!-- resultType은 리턴타입과 매칭. 여기서 파라미터 타입은 여러개가 넘어와서 map으로 잡아줌 -->
+ 	<select id="selectBookingListByNamePhoneNumber" parameterType="string" 
+ 	resultType="com.lytear.springTest.lesson06.model.Booking">
  		SELECT
 			`id`
  			,`name`

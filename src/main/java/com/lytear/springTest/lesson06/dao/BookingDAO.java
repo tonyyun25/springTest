@@ -33,8 +33,8 @@ public interface BookingDAO { // 다른 회사에서는 키워드를 DAO가 아�
 			);
 	
 	
-	public Booking selectSchedule(
-			@Param("name") String name
+	public Booking selectBookingListByNamePhoneNumber(
+			@Param("name") String name // xml과 자바의 소통을 위함. 뒤의 BO 통해 전달한 변수를 앞의 키워드로 xml에 전달 (BO와 반대)
 			,@Param("phoneNumber") String phoneNumber
 			);
 	

@@ -48,10 +48,10 @@ public class BookingBO {
 		return bookingDAO.insertBooking(name, date, day, headcount, phoneNumber, "대기중");
 	}
 	
+	// DAO를 완성하고 와서 BO가 필요에 의해서 받아오는 것. 순서상은 DAO 먼저 작성이나 편의상 BO 먼저 작성
 	
-	
-	public Booking getSchedule(String name, String phoneNumber) {
-		return bookingDAO.selectSchedule(name, phoneNumber);
+	public Booking getBookingListByNamePhoneNumber(String name, String phoneNumber) {//여기서부터 서버
+		return bookingDAO.selectBookingListByNamePhoneNumber(name, phoneNumber);
 	}
 	
 	
